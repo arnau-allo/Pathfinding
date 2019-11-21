@@ -1,5 +1,7 @@
 #pragma once
 #include <vector>
+#include <utility>      
+#include <deque>
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -17,6 +19,7 @@ private:
 	int num_cell_y;
 
 	std::vector< std::vector<int> > terrain;
+	std::deque<std::pair<Vector2D,Vector2D>> frontier;
 
 public:
 	Vector2D cell2pix(Vector2D cell);
@@ -24,4 +27,5 @@ public:
 	bool isValidCell(Vector2D cell);
 	int getNumCellX();
 	int getNumCellY();
+	Path getPathBetween(Vector2D start, Vector2D end);
 };

@@ -1,0 +1,12 @@
+﻿  Grid.cpp
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(66): warning C4018: '<': signed/unsigned mismatch
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(70): warning C4018: '<': signed/unsigned mismatch
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(86): warning C4018: '<': signed/unsigned mismatch
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(102): warning C4018: '<': signed/unsigned mismatch
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(118): warning C4018: '<': signed/unsigned mismatch
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(134): warning C4018: '<': signed/unsigned mismatch
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(150): warning C4018: '<': signed/unsigned mismatch
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(166): warning C4018: '<': signed/unsigned mismatch
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(182): warning C4018: '<': signed/unsigned mismatch
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(212): warning C4018: '<': signed/unsigned mismatch
+  SDL_Pathfinding.vcxproj -> C:\Users\Arnau\Desktop\Pathfinding\Pathfinding\SDL_Pathfinding\\bin\SDL_Pathfinding.exe

@@ -28,6 +28,7 @@ ScenePathFindingMouse::ScenePathFindingMouse()
 	while ((!maze->isValidCell(coinPosition)) || (Vector2D::Distance(coinPosition, rand_cell)<3))
 		coinPosition = Vector2D((float)(rand() % maze->getNumCellX()), (float)(rand() % maze->getNumCellY()));
 
+	agent->clearPath();
 }
 
 ScenePathFindingMouse::~ScenePathFindingMouse()
@@ -57,7 +58,13 @@ void ScenePathFindingMouse::update(float dtime, SDL_Event *event)
 		{
 			Vector2D cell = maze->pix2cell(Vector2D((float)(event->button.x), (float)(event->button.y)));
 			if (maze->isValidCell(cell)) {
-				agents[0]->addPathPoint(maze->cell2pix(cell));
+				agents[0]->clearPath();
+				Path myPath = maze->getPathBetween(agents[0]->getPosition(), maze->cell2pix(cell));
+				for (int i = 0; i < myPath.points.size(); i++) {
+					agents[0]->addPathPoint(myPath.points[i]);
+				}
+				
+				//agents[0]->addPathPoint(maze->cell2pix(cell));
 			}
 		}
 		break;
