@@ -59,9 +59,9 @@ void ScenePathFindingMouse::update(float dtime, SDL_Event *event)
 			Vector2D cell = maze->pix2cell(Vector2D((float)(event->button.x), (float)(event->button.y)));
 			if (maze->isValidCell(cell)) {
 				agents[0]->clearPath();
-				Path myPath = maze->getPathBetween(agents[0]->getPosition(), maze->cell2pix(cell));
+				Path myPath = maze->getPathBetween(maze->pix2cell(agents[0]->getPosition()), cell);
 				for (int i = 0; i < myPath.points.size(); i++) {
-					agents[0]->addPathPoint(myPath.points[i]);
+					agents[0]->addPathPoint(maze->cell2pix(myPath.points[i]));
 				}
 				
 				//agents[0]->addPathPoint(maze->cell2pix(cell));

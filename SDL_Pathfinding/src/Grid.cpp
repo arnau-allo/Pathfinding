@@ -58,16 +58,19 @@ bool Grid::isValidCell(Vector2D cell)
 
 Path Grid::getPathBetween(Vector2D start, Vector2D end) 
 {
-	
-	frontier.push_back(std::make_pair(start,start));
-
+	frontier.clear();
+	frontier.push_back(std::make_pair(start, start));
+	Vector2D endPix = end;
 	bool isEnd = false;
 	bool isInFrontier = false;
-	for(int it = 0; it < frontier.size()-1; it++) {
+	int it = 0;
+	while(!frontier.empty()) {
 		
-		Vector2D point1 = pix2cell(Vector2D(frontier[it].first.x - CELL_SIZE, frontier[it].first.y - CELL_SIZE));
+		Vector2D point1 = (0, 0);
+		point1.x = frontier[it].first.x - 1.0f;
+		point1.y = frontier[it].first.y - 1.0f;
 		if (isValidCell(point1)) {
-			for (int i = 0; i < frontier.size(); i++) {
+			for (int i = 0; i < frontier.size() - 1; i++) {
 				if (frontier[i].first == point1)
 					isInFrontier = true;
 			}
@@ -75,15 +78,17 @@ Path Grid::getPathBetween(Vector2D start, Vector2D end)
 				frontier.push_back(std::make_pair(point1, frontier[it].first));
 			isInFrontier = false;
 		}
-		if (point1 == end)
+		if (point1 == endPix)
 		{
-			break;
 			isEnd = true;
+			break;
 		}
 
-		Vector2D point2 = pix2cell(Vector2D(frontier[it].first.x, frontier[it].first.y - CELL_SIZE));
+		Vector2D point2 = (0, 0);
+		point2.x = frontier[it].first.x;
+		point2.y = frontier[it].first.y - 1.0f;
 		if (isValidCell(point2)) {
-			for (int i = 0; i < frontier.size(); i++) {
+			for (int i = 0; i < frontier.size() - 1; i++) {
 				if (frontier[i].first == point2)
 					isInFrontier = true;
 			}
@@ -91,15 +96,18 @@ Path Grid::getPathBetween(Vector2D start, Vector2D end)
 				frontier.push_back(std::make_pair(point2, frontier[it].first));
 			isInFrontier = false;
 		}
-		if (point2 == end)
+		if (point2 == endPix)
 		{
-			break;
 			isEnd = true;
+			break;
 		}
 
-		Vector2D point3 = pix2cell(Vector2D(frontier[it].first.x + CELL_SIZE, frontier[it].first.y - CELL_SIZE));
+		Vector2D point3 = (0, 0);
+		point3.x = frontier[it].first.x + 1.0f;
+		point3.y = frontier[it].first.y - 1.0f;
+
 		if (isValidCell(point3)) {
-			for (int i = 0; i < frontier.size(); i++) {
+			for (int i = 0; i < frontier.size() - 1; i++) {
 				if (frontier[i].first == point3)
 					isInFrontier = true;
 			}
@@ -107,15 +115,17 @@ Path Grid::getPathBetween(Vector2D start, Vector2D end)
 				frontier.push_back(std::make_pair(point3, frontier[it].first));
 			isInFrontier = false;
 		}
-		if (point3 == end)
+		if (point3 == endPix)
 		{
-			break;
 			isEnd = true;
+			break;
 		}
 
-		Vector2D point4 = pix2cell(Vector2D(frontier[it].first.x - CELL_SIZE, frontier[it].first.y));
+		Vector2D point4 = (0, 0);
+		point4.x = frontier[it].first.x - 1.0f;
+		point4.y = frontier[it].first.y;
 		if (isValidCell(point4)) {
-			for (int i = 0; i < frontier.size(); i++) {
+			for (int i = 0; i < frontier.size() - 1; i++) {
 				if (frontier[i].first == point4)
 					isInFrontier = true;
 			}
@@ -123,15 +133,18 @@ Path Grid::getPathBetween(Vector2D start, Vector2D end)
 				frontier.push_back(std::make_pair(point4, frontier[it].first));
 			isInFrontier = false;
 		}
-		if (point4 == end)
+		if (point4 == endPix)
 		{
-			break;
 			isEnd = true;
+			break;
 		}
 
-		Vector2D point6 = pix2cell(Vector2D(frontier[it].first.x + CELL_SIZE, frontier[it].first.y));
+		Vector2D point6 = (0, 0);
+		point6.x = frontier[it].first.x + 1.0f;
+		point6.y = frontier[it].first.y;
+
 		if (isValidCell(point6)) {
-			for (int i = 0; i < frontier.size(); i++) {
+			for (int i = 0; i < frontier.size() - 1; i++) {
 				if (frontier[i].first == point6)
 					isInFrontier = true;
 			}
@@ -139,15 +152,17 @@ Path Grid::getPathBetween(Vector2D start, Vector2D end)
 				frontier.push_back(std::make_pair(point6, frontier[it].first));
 			isInFrontier = false;
 		}
-		if (point6 == end)
+		if (point6 == endPix)
 		{
-			break;
 			isEnd = true;
+			break;
 		}
 
-		Vector2D point7 = pix2cell(Vector2D(frontier[it].first.x - CELL_SIZE, frontier[it].first.y + CELL_SIZE));
+		Vector2D point7 = (frontier[it].first.x - 1, frontier[it].first.y + 1);
+		point7.x = frontier[it].first.x - 1.0f;
+		point7.y = frontier[it].first.y + 1.0f;
 		if (isValidCell(point7)) {
-			for (int i = 0; i < frontier.size(); i++) {
+			for (int i = 0; i < frontier.size() - 1; i++) {
 				if (frontier[i].first == point7)
 					isInFrontier = true;
 			}
@@ -155,15 +170,17 @@ Path Grid::getPathBetween(Vector2D start, Vector2D end)
 				frontier.push_back(std::make_pair(point7, frontier[it].first));
 			isInFrontier = false;
 		}
-		if (point7 == end)
+		if (point7 == endPix)
 		{
-			break;
 			isEnd = true;
+			break;
 		}
 
-		Vector2D point8 = pix2cell(Vector2D(frontier[it].first.x, frontier[it].first.y + CELL_SIZE));
+		Vector2D point8 = (frontier[it].first.x, frontier[it].first.y + 1);
+		point8.x = frontier[it].first.x;
+		point8.y = frontier[it].first.y + 1.0f;
 		if (isValidCell(point8)) {
-			for (int i = 0; i < frontier.size(); i++) {
+			for (int i = 0; i < frontier.size() - 1; i++) {
 				if (frontier[i].first == point8)
 					isInFrontier = true;
 			}
@@ -171,15 +188,17 @@ Path Grid::getPathBetween(Vector2D start, Vector2D end)
 				frontier.push_back(std::make_pair(point8, frontier[it].first));
 			isInFrontier = false;
 		}
-		if (point8 == end)
+		if (point8 == endPix)
 		{
-			break;
 			isEnd = true;
+			break;
 		}
 
-		Vector2D point9 = pix2cell(Vector2D(frontier[it].first.x + CELL_SIZE, frontier[it].first.y + CELL_SIZE));
+		Vector2D point9 = (frontier[it].first.x + 1, frontier[it].first.y + 1);
+		point9.x = frontier[it].first.x + 1.0f;
+		point9.y = frontier[it].first.y + 1.0f;
 		if (isValidCell(point9)) {
-			for(int i = 0; i < frontier.size(); i++) {
+			for(int i = 0; i < frontier.size() - 1; i++) {
 				if (frontier[i].first == point9)
 					isInFrontier = true;
 			}
@@ -187,11 +206,12 @@ Path Grid::getPathBetween(Vector2D start, Vector2D end)
 				frontier.push_back(std::make_pair(point9, frontier[it].first));
 			isInFrontier = false;
 		}
-		if (point9 == end)
+		if (point9 == endPix)
 		{
-			break;
 			isEnd = true;
+			break;
 		}
+		it++;
 	}
 
 	std::vector<Vector2D> points;
@@ -199,7 +219,7 @@ Path Grid::getPathBetween(Vector2D start, Vector2D end)
 	bool pointFound = false;
 
 
-	int it = frontier.size() - 1;
+	it = frontier.size() - 1;
 
 	
 	while (!isStart) {
@@ -218,7 +238,7 @@ Path Grid::getPathBetween(Vector2D start, Vector2D end)
 	}
 
 	Path myPath;
-	for (int i = points.size() - 1; i > 0; i--) {
+	for (int i = points.size() - 1; i >= 0; i--) {
 		myPath.points.push_back(points[i]);
 	}
 
