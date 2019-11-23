@@ -2,6 +2,7 @@
 #include <vector>
 #include <utility>      
 #include <deque>
+#include <queue>         
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -27,5 +28,7 @@ public:
 	bool isValidCell(Vector2D cell);
 	int getNumCellX();
 	int getNumCellY();
-	Path getPathBetween(Vector2D start, Vector2D end);
+	Path getPathBFS(Vector2D start, Vector2D end);
+	Path getPathDjikstra(Vector2D start, Vector2D end);
+	int getCostCell(Vector2D cell);
 };

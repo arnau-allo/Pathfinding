@@ -19,13 +19,16 @@ public:
 	void update(float dtime, SDL_Event *event);
 	void draw();
 	const char* getTitle();
+	void setMode(int _mode);
+	int getMode();
 private:
 	std::vector<Agent*> agents;
 	Vector2D coinPosition;
 
 	Grid *maze;
 	bool draw_grid;
-		
+	int mode;
+
 	void drawMaze();
 	void drawCoin();
 	SDL_Texture *background_texture;

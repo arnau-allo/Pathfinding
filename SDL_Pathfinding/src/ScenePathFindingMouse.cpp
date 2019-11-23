@@ -28,7 +28,23 @@ ScenePathFindingMouse::ScenePathFindingMouse()
 	while ((!maze->isValidCell(coinPosition)) || (Vector2D::Distance(coinPosition, rand_cell)<3))
 		coinPosition = Vector2D((float)(rand() % maze->getNumCellX()), (float)(rand() % maze->getNumCellY()));
 
-	agent->clearPath();
+	if (mode == 100) {
+		agent->clearPath();
+		agents[0]->clearPath();
+		Path myPath = maze->getPathBFS(maze->pix2cell(agents[0]->getPosition()), coinPosition);
+		for (int i = 0; i < myPath.points.size(); i++) {
+			agents[0]->addPathPoint(maze->cell2pix(myPath.points[i]));
+		}
+	}
+	//else if (mode == 1) {
+		agent->clearPath();
+		agents[0]->clearPath();
+		Path myPath = maze->getPathDjikstra(maze->pix2cell(agents[0]->getPosition()), coinPosition);
+		for (int i = 0; i < myPath.points.size(); i++) {
+			agents[0]->addPathPoint(maze->cell2pix(myPath.points[i]));
+		}
+	//}
+	
 }
 
 ScenePathFindingMouse::~ScenePathFindingMouse()
@@ -47,6 +63,7 @@ ScenePathFindingMouse::~ScenePathFindingMouse()
 void ScenePathFindingMouse::update(float dtime, SDL_Event *event)
 {
 	/* Keyboard & Mouse events */
+	std::cout << getMode();
 	switch (event->type) {
 	case SDL_KEYDOWN:
 		if (event->key.keysym.scancode == SDL_SCANCODE_SPACE)
@@ -58,12 +75,12 @@ void ScenePathFindingMouse::update(float dtime, SDL_Event *event)
 		{
 			Vector2D cell = maze->pix2cell(Vector2D((float)(event->button.x), (float)(event->button.y)));
 			if (maze->isValidCell(cell)) {
-				agents[0]->clearPath();
+				/*agents[0]->clearPath();
 				Path myPath = maze->getPathBetween(maze->pix2cell(agents[0]->getPosition()), cell);
 				for (int i = 0; i < myPath.points.size(); i++) {
 					agents[0]->addPathPoint(maze->cell2pix(myPath.points[i]));
 				}
-				
+				*/
 				//agents[0]->addPathPoint(maze->cell2pix(cell));
 			}
 		}
@@ -80,6 +97,22 @@ void ScenePathFindingMouse::update(float dtime, SDL_Event *event)
 		coinPosition = Vector2D(-1, -1);
 		while ((!maze->isValidCell(coinPosition)) || (Vector2D::Distance(coinPosition, maze->pix2cell(agents[0]->getPosition()))<3))
 			coinPosition = Vector2D((float)(rand() % maze->getNumCellX()), (float)(rand() % maze->getNumCellY()));
+
+		if(mode == 0){
+			agents[0]->clearPath();
+			Path myPath = maze->getPathBFS(maze->pix2cell(agents[0]->getPosition()), coinPosition);
+			for (int i = 0; i < myPath.points.size(); i++) {
+				agents[0]->addPathPoint(maze->cell2pix(myPath.points[i]));
+			}
+		}
+		else if (mode == 1) {
+			agents[0]->clearPath();
+			Path myPath = maze->getPathDjikstra(maze->pix2cell(agents[0]->getPosition()), coinPosition);
+			for (int i = 0; i < myPath.points.size(); i++) {
+				agents[0]->addPathPoint(maze->cell2pix(myPath.points[i]));
+			}
+		}
+		
 	}
 	
 }
@@ -168,4 +201,12 @@ bool ScenePathFindingMouse::loadTextures(char* filename_bg, char* filename_coin)
 		SDL_FreeSurface(image);
 
 	return true;
+}
+
+void ScenePathFindingMouse::setMode(int _mode) {
+	mode = _mode;
+}
+
+int ScenePathFindingMouse::getMode() {
+	return mode;
 }

@@ -16,6 +16,7 @@ int main(int argc, char ** argv)
 
 	Scene *curr_scene = new ScenePathFindingMouse;
 	app->setWindowTitle(curr_scene->getTitle());
+	curr_scene->setMode(1);
 
 	
 	if (argc > 1) {
@@ -37,12 +38,25 @@ int main(int argc, char ** argv)
 				delete(curr_scene);
 				curr_scene = new ScenePathFindingMouse;
 				app->setWindowTitle(curr_scene->getTitle());
+				curr_scene->setMode(0);
+
 			}
 			if (event.key.keysym.scancode == SDL_SCANCODE_2)
 			{
+				delete(curr_scene);
+				curr_scene = new ScenePathFindingMouse;
+				app->setWindowTitle(curr_scene->getTitle());
+				curr_scene->setMode(1);
+
 			}
 			if (event.key.keysym.scancode == SDL_SCANCODE_3)
 			{
+				delete(curr_scene);
+				curr_scene = new ScenePathFindingMouse;
+				app->setWindowTitle(curr_scene->getTitle());
+				curr_scene->setMode(2);
+
+
 			}
 			if ((event.key.keysym.scancode == SDL_SCANCODE_Q) || (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE))
 			{
