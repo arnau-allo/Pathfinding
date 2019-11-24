@@ -10,12 +10,12 @@ struct MyNode
 	float heuristic;
 	float costSoFar;
 
-	MyNode(Vector2D _pos, MyNode* _parent, float _cost, float _heuristic) {
+	MyNode(Vector2D _pos, MyNode* _parent, float _cost, float _costSoFar) {
 		position = _pos;
 		parent = _parent;
 		cost = _cost;
-		heuristic = _heuristic;
-		costSoFar = 0;
+		//heuristic = _heuristic;
+		costSoFar = _costSoFar;
 	}
 	 bool operator== (const MyNode &n) const{
 		return (cost == n.cost);
@@ -293,21 +293,26 @@ Path Grid::getPathDjikstra(Vector2D start, Vector2D end) {
 	int it = 0;
 	MyNode itNode = n;
 
+	MyNode cheapestNode = frontierDjikstra[0];
+
+
 	while (!frontierDjikstra.empty()) {
 
-		MyNode cheapestNode = frontierDjikstra[0];
 		int cheapI = 0;
 
 		for (int i = 0; i < frontierDjikstra.size() - 1; i++) {
-			if (frontierDjikstra[i].cost < cheapestNode.cost) {
+			if (frontierDjikstra[i].cost <= cheapestNode.cost) {
 				cheapestNode = frontierDjikstra[i];
 				cheapI = i;
 			}
 		}
-		itNode = frontierDjikstra[cheapI];
+		itNode.position = frontierDjikstra[cheapI].position;
+		itNode.parent = frontierDjikstra[cheapI].parent;
+		itNode.cost = frontierDjikstra[cheapI].cost;
+		itNode.cost = frontierDjikstra[cheapI].costSoFar;
+
 		frontierDjikstra.erase(frontierDjikstra.begin() + cheapI);
 		visitedCells.push_back(itNode);
-
 
 		bool alreadyVisited = false;
 		bool alreadyFrontier = false;
@@ -315,7 +320,7 @@ Path Grid::getPathDjikstra(Vector2D start, Vector2D end) {
 		point2.x = itNode.position.x;
 		point2.y = itNode.position.y - 1.0f;
 		if (isValidCell(point2)) {
-			MyNode n2 = MyNode(point2, &itNode, getCostCell(point2), itNode.costSoFar + getCostCell(point2));
+			MyNode n2 = MyNode(point2, &visitedCells[visitedCells.size() - 1], getCostCell(point2), itNode.costSoFar + getCostCell(point2));
 			if (point2 == end) {
 				visitedCells.push_back(n2);
 				break;
@@ -351,7 +356,7 @@ Path Grid::getPathDjikstra(Vector2D start, Vector2D end) {
 		point4.x = itNode.position.x - 1.0f;
 		point4.y = itNode.position.y;
 		if (isValidCell(point4)) {
-			MyNode n4 = MyNode(point4, &itNode, getCostCell(point4), itNode.costSoFar + getCostCell(point4));
+			MyNode n4 = MyNode(point4, &visitedCells[visitedCells.size() - 1], getCostCell(point4), itNode.costSoFar + getCostCell(point4));
 			if (point4 == end) {
 				visitedCells.push_back(n4);
 				break;
@@ -387,7 +392,7 @@ Path Grid::getPathDjikstra(Vector2D start, Vector2D end) {
 		point6.x = itNode.position.x + 1.0f;
 		point6.y = itNode.position.y;
 		if (isValidCell(point6)) {
-			MyNode n6 = MyNode(point6, &itNode, getCostCell(point6), itNode.costSoFar+ getCostCell(point6));
+			MyNode n6 = MyNode(point6, &visitedCells[visitedCells.size() - 1], getCostCell(point6), itNode.costSoFar+ getCostCell(point6));
 			if (point6 == end) {
 				visitedCells.push_back(n6);
 				break;
@@ -422,7 +427,7 @@ Path Grid::getPathDjikstra(Vector2D start, Vector2D end) {
 		point8.x = itNode.position.x;
 		point8.y = itNode.position.y + 1.0f;
 		if (isValidCell(point8)) {
-			MyNode n8 = MyNode(point8, &itNode, getCostCell(point8), itNode.costSoFar + getCostCell(point8));
+			MyNode n8 = MyNode(point8, &visitedCells[visitedCells.size() - 1], getCostCell(point8), itNode.costSoFar + getCostCell(point8));
 			if (point8 == end) {
 				visitedCells.push_back(n8);
 				break;
@@ -488,7 +493,7 @@ Path Grid::getPathDjikstra(Vector2D start, Vector2D end) {
 	}
 
 	Path myPath;
-	for (int i = points.size(); i >= 0; i--) {
+	for (int i = points.size()-1; i >= 0; i--) {
 		myPath.points.push_back(points[i]);
 	}
 
