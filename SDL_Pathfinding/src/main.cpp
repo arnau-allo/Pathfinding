@@ -16,7 +16,7 @@ int main(int argc, char ** argv)
 
 	Scene *curr_scene = new ScenePathFindingMouse;
 	app->setWindowTitle(curr_scene->getTitle());
-	curr_scene->setMode(1);
+	curr_scene->setMode(0);
 
 	
 	if (argc > 1) {

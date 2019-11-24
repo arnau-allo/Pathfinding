@@ -7,6 +7,7 @@
 #include <sstream>
 #include <string>
 #include <time.h>
+#include <stdlib.h>
 #include "Agent.h"
 
 class Grid
@@ -30,5 +31,7 @@ public:
 	int getNumCellY();
 	Path getPathBFS(Vector2D start, Vector2D end);
 	Path getPathDjikstra(Vector2D start, Vector2D end);
+	Path getPathGreedy(Vector2D start, Vector2D end);
 	int getCostCell(Vector2D cell);
+	int getHeuristic(Vector2D start, Vector2D end);
 };
