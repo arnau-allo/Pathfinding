@@ -13,14 +13,21 @@ c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(203)
 c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(221): warning C4018: '<': signed/unsigned mismatch
 c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(239): warning C4018: '<': signed/unsigned mismatch
 c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(270): warning C4018: '<': signed/unsigned mismatch
-c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(299): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(303): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(312): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(316): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(325): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(329): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(338): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(342): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(353): warning C4018: '<': signed/unsigned mismatch
-c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(362): warning C4018: '<': signed/unsigned mismatch
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(301): warning C4018: '<': signed/unsigned mismatch
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(314): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(318): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(323): warning C4018: '<': signed/unsigned mismatch
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(330): warning C4018: '<': signed/unsigned mismatch
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(350): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(354): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(359): warning C4018: '<': signed/unsigned mismatch
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(366): warning C4018: '<': signed/unsigned mismatch
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(386): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(390): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(395): warning C4018: '<': signed/unsigned mismatch
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(401): warning C4018: '<': signed/unsigned mismatch
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(421): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(425): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(430): warning C4018: '<': signed/unsigned mismatch
+c:\users\arnau\desktop\pathfinding\pathfinding\sdl_pathfinding\src\grid.cpp(437): warning C4018: '<': signed/unsigned mismatch
   SDL_Pathfinding.vcxproj -> C:\Users\Arnau\Desktop\Pathfinding\Pathfinding\SDL_Pathfinding\\bin\SDL_Pathfinding.exe
