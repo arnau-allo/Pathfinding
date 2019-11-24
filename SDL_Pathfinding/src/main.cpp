@@ -33,7 +33,7 @@ int main(int argc, char ** argv)
 		switch (event.type)
 		{
 		case SDL_KEYDOWN:
-			if (event.key.keysym.scancode == SDL_SCANCODE_1)
+			if (event.key.keysym.scancode == SDL_SCANCODE_1) //BFS
 			{
 				delete(curr_scene);
 				curr_scene = new ScenePathFindingMouse;
@@ -41,7 +41,7 @@ int main(int argc, char ** argv)
 				curr_scene->setMode(0);
 
 			}
-			if (event.key.keysym.scancode == SDL_SCANCODE_2)
+			if (event.key.keysym.scancode == SDL_SCANCODE_2) //DJIKSTRA
 			{
 				delete(curr_scene);
 				curr_scene = new ScenePathFindingMouse;
@@ -49,7 +49,7 @@ int main(int argc, char ** argv)
 				curr_scene->setMode(1);
 
 			}
-			if (event.key.keysym.scancode == SDL_SCANCODE_3)
+			if (event.key.keysym.scancode == SDL_SCANCODE_3) //GREEDY
 			{
 				delete(curr_scene);
 				curr_scene = new ScenePathFindingMouse;
@@ -58,14 +58,26 @@ int main(int argc, char ** argv)
 
 
 			}
-			if (event.key.keysym.scancode == SDL_SCANCODE_4)
+			if (event.key.keysym.scancode == SDL_SCANCODE_4) //A STAR
 			{
 				delete(curr_scene);
 				curr_scene = new ScenePathFindingMouse;
 				app->setWindowTitle(curr_scene->getTitle());
 				curr_scene->setMode(3);
-
-
+			}
+			if (event.key.keysym.scancode == SDL_SCANCODE_5) //EXERCICI 3
+			{
+				delete(curr_scene);
+				curr_scene = new ScenePathFindingMouse;
+				app->setWindowTitle(curr_scene->getTitle());
+				curr_scene->setMode(4);
+			}
+			if (event.key.keysym.scancode == SDL_SCANCODE_6) //EVALUAR EFICIENCIA ALGORISMES
+			{
+				delete(curr_scene);
+				curr_scene = new ScenePathFindingMouse;
+				app->setWindowTitle(curr_scene->getTitle());
+				curr_scene->setMode(5);
 			}
 			if ((event.key.keysym.scancode == SDL_SCANCODE_Q) || (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE))
 			{

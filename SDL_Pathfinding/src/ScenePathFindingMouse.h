@@ -21,6 +21,28 @@ public:
 	const char* getTitle();
 	void setMode(int _mode);
 	int getMode();
+	std::vector<Vector2D> enemies;
+
+	float minBFS;
+	float maxBFS;
+	float totalBFS;
+	float iterationsBFS;
+
+	float minDji;
+	float maxDji;
+	float totalDji;
+	float iterationsDji;
+
+	float minGreedy;
+	float maxGreedy;
+	float totalGreedy;
+	float iterationsGreedy;
+
+	float minAStar;
+	float maxAStar;
+	float totalAStar;
+	float iterationsAStar;
+
 private:
 	std::vector<Agent*> agents;
 	Vector2D coinPosition;

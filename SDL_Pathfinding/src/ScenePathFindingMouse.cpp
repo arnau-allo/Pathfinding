@@ -17,6 +17,27 @@ ScenePathFindingMouse::ScenePathFindingMouse()
 	agent->setTarget(Vector2D(-20,-20));
 	agents.push_back(agent);
 
+	minBFS = 100000.0f;
+	maxBFS = 0.0f;
+	totalBFS = 0.0f;
+	iterationsBFS = 0.0f;
+
+	minDji = 100000.0f;
+	maxDji = 0.0f;
+	totalDji = 0.0f;
+	iterationsDji = 0.0f;
+
+	minGreedy = 100000.0f;
+	maxGreedy = 0.0f;
+	totalGreedy = 0.0f;
+	iterationsGreedy = 0.0f;
+
+	minAStar = 100000.0f;
+	maxAStar = 0.0f;
+	totalAStar = 0.0f;
+	iterationsAStar = 0.0f;
+
+	enemies.clear();
 	// set agent position coords to the center of a random cell
 	Vector2D rand_cell(-1,-1);
 	while (!maze->isValidCell(rand_cell))
@@ -25,8 +46,27 @@ ScenePathFindingMouse::ScenePathFindingMouse()
 
 	// set the coin in a random cell (but at least 3 cells far from the agent)
 	coinPosition = Vector2D(-1,-1);
-	while ((!maze->isValidCell(coinPosition)) || (Vector2D::Distance(coinPosition, rand_cell)<3))
+	while ((!maze->isValidCell(coinPosition)) || (Vector2D::Distance(coinPosition, rand_cell) < 3)) {
 		coinPosition = Vector2D((float)(rand() % maze->getNumCellX()), (float)(rand() % maze->getNumCellY()));
+		while (maze->getCostCell(coinPosition) == 50) {
+			coinPosition = Vector2D((float)(rand() % maze->getNumCellX()), (float)(rand() % maze->getNumCellY()));
+		}
+	}
+		
+
+	for (int j = 0; j < maze->getNumCellY(); j++)
+	{
+		for (int i = 0; i < maze->getNumCellX(); i++)
+		{
+				if (maze->getCostCell(Vector2D((float)i, (float)j)) == 50) { //IS ENEMY
+					Vector2D temp = (0, 0);
+					temp.x = (float)i;
+					temp.y = (float)j;
+					enemies.push_back(temp);
+				}
+		}
+	}
+
 
 	if (mode == 0) {
 		agent->clearPath();
@@ -56,6 +96,21 @@ ScenePathFindingMouse::ScenePathFindingMouse()
 		agent->clearPath();
 		agents[0]->clearPath();
 		Path myPath = maze->getPathAStar(maze->pix2cell(agents[0]->getPosition()), coinPosition);
+		for (int i = 0; i < myPath.points.size(); i++) {
+			agents[0]->addPathPoint(maze->cell2pix(myPath.points[i]));
+		}
+	}
+	else if (mode == 4) {
+		agent->clearPath();
+		agents[0]->clearPath();
+		Path myPath = maze->getPathEnemies(maze->pix2cell(agents[0]->getPosition()), coinPosition, enemies);
+		for (int i = 0; i < myPath.points.size(); i++) {
+			agents[0]->addPathPoint(maze->cell2pix(myPath.points[i]));
+		}
+	}
+	else if (mode == 5) {
+		agents[0]->clearPath();
+		Path myPath = maze->getPathEnemies(maze->pix2cell(agents[0]->getPosition()), coinPosition, enemies);
 		for (int i = 0; i < myPath.points.size(); i++) {
 			agents[0]->addPathPoint(maze->cell2pix(myPath.points[i]));
 		}
@@ -110,10 +165,16 @@ void ScenePathFindingMouse::update(float dtime, SDL_Event *event)
 	// if we have arrived to the coin, replace it in a random cell!
 	if ((agents[0]->getCurrentTargetIndex() == -1) && (maze->pix2cell(agents[0]->getPosition()) == coinPosition))
 	{
-		std::cout << getMode();
+		//std::cout << getMode();
 		coinPosition = Vector2D(-1, -1);
-		while ((!maze->isValidCell(coinPosition)) || (Vector2D::Distance(coinPosition, maze->pix2cell(agents[0]->getPosition()))<3))
+		while ((!maze->isValidCell(coinPosition)) || (Vector2D::Distance(coinPosition, maze->pix2cell(agents[0]->getPosition())) < 3))
+		{
 			coinPosition = Vector2D((float)(rand() % maze->getNumCellX()), (float)(rand() % maze->getNumCellY()));
+			while (maze->getCostCell(coinPosition) == 50) {
+				coinPosition = Vector2D((float)(rand() % maze->getNumCellX()), (float)(rand() % maze->getNumCellY()));
+			}
+		}
+			
 
 		if(mode == 0){
 			agents[0]->clearPath();
@@ -139,6 +200,64 @@ void ScenePathFindingMouse::update(float dtime, SDL_Event *event)
 		else if (mode == 3) {
 			agents[0]->clearPath();
 			Path myPath = maze->getPathAStar(maze->pix2cell(agents[0]->getPosition()), coinPosition);
+			for (int i = 0; i < myPath.points.size(); i++) {
+				agents[0]->addPathPoint(maze->cell2pix(myPath.points[i]));
+			}
+		}
+		else if (mode == 4) {
+			agents[0]->clearPath();
+			Path myPath = maze->getPathEnemies(maze->pix2cell(agents[0]->getPosition()), coinPosition, enemies);
+			for (int i = 0; i < myPath.points.size(); i++) {
+				agents[0]->addPathPoint(maze->cell2pix(myPath.points[i]));
+			}
+		}
+		else if (mode == 5) {
+			agents[0]->clearPath();
+			Path myPath = maze->getPathBFS(maze->pix2cell(agents[0]->getPosition()), coinPosition);
+			Path myPath2 = maze->getPathDjikstra(maze->pix2cell(agents[0]->getPosition()), coinPosition);
+			Path myPath3 = maze->getPathGreedy(maze->pix2cell(agents[0]->getPosition()), coinPosition);
+			Path myPath4 = maze->getPathAStar(maze->pix2cell(agents[0]->getPosition()), coinPosition);
+			if (myPath.visitedCells < minBFS) {
+				minBFS = myPath.visitedCells;
+			}
+			if (myPath.visitedCells > maxBFS) {
+				maxBFS = myPath.visitedCells;
+			}
+			totalBFS += myPath.visitedCells;
+			iterationsBFS++;
+
+			if (myPath2.visitedCells < minDji) {
+				minDji = myPath2.visitedCells;
+			}
+			if (myPath2.visitedCells > maxDji) {
+				maxDji = myPath2.visitedCells;
+			}
+			totalDji += myPath2.visitedCells;
+			iterationsDji++;
+
+			if (myPath3.visitedCells < minGreedy) {
+				minGreedy = myPath3.visitedCells;
+			}
+			if (myPath3.visitedCells > maxGreedy) {
+				maxGreedy = myPath3.visitedCells;
+			}
+			totalGreedy += myPath3.visitedCells;
+			iterationsGreedy++;
+
+			if (myPath4.visitedCells < minAStar) {
+				minAStar = myPath4.visitedCells;
+			}
+			if (myPath4.visitedCells > maxAStar) {
+				maxAStar = myPath4.visitedCells;
+			}
+			totalAStar += myPath4.visitedCells;
+			iterationsAStar++;
+
+			std::cout << "Min BFS: " << minBFS << " Max BFS: " << maxBFS << " Average: " << (totalBFS / iterationsBFS) << " Iteration: " << iterationsBFS << std::endl;
+			std::cout << "Min Djikstra: " << minDji << " Max Djikstra: " << maxDji << " Average: " << (totalDji / iterationsDji) << " Iteration: " << iterationsDji << std::endl;
+			std::cout << "Min Greedy: " << minGreedy << " Max Greedy: " << maxGreedy << " Average: " << (totalGreedy / iterationsGreedy) << " Iteration: " << iterationsGreedy << std::endl;
+			std::cout << "Min A Star: " << minAStar << " Max A Star: " << maxAStar << " Average: " << (totalAStar / iterationsAStar) << " Iteration: " << iterationsAStar << std::endl;
+			std::cout << std::endl;
 			for (int i = 0; i < myPath.points.size(); i++) {
 				agents[0]->addPathPoint(maze->cell2pix(myPath.points[i]));
 			}
@@ -190,6 +309,12 @@ void ScenePathFindingMouse::drawMaze()
 				rect = { (int)coords.x, (int)coords.y, CELL_SIZE, CELL_SIZE };
 				SDL_RenderFillRect(TheApp::Instance()->getRenderer(), &rect);
 			} else {
+				if (getMode() == 4 && maze->getCostCell(Vector2D((float)i, (float)j)) == 50) { //IS ENEMY
+					SDL_SetRenderDrawColor(TheApp::Instance()->getRenderer(), 255, 0, 0, 255);
+					coords = maze->cell2pix(Vector2D((float)i, (float)j)) - Vector2D((float)CELL_SIZE / 2, (float)CELL_SIZE / 2);
+					rect = { (int)coords.x, (int)coords.y, CELL_SIZE, CELL_SIZE };
+					SDL_RenderFillRect(TheApp::Instance()->getRenderer(), &rect);
+				}
 				// Do not draw if it is not necessary (bg is already black)
 			}
 					
