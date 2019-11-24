@@ -44,6 +44,14 @@ ScenePathFindingMouse::ScenePathFindingMouse()
 			agents[0]->addPathPoint(maze->cell2pix(myPath.points[i]));
 		}
 	}
+	else if (mode == 2) {
+		agent->clearPath();
+		agents[0]->clearPath();
+		Path myPath = maze->getPathGreedy(maze->pix2cell(agents[0]->getPosition()), coinPosition);
+		for (int i = 0; i < myPath.points.size(); i++) {
+			agents[0]->addPathPoint(maze->cell2pix(myPath.points[i]));
+		}
+	}
 	
 }
 
@@ -109,6 +117,13 @@ void ScenePathFindingMouse::update(float dtime, SDL_Event *event)
 		else if (mode == 1) {
 			agents[0]->clearPath();
 			Path myPath = maze->getPathDjikstra(maze->pix2cell(agents[0]->getPosition()), coinPosition);
+			for (int i = 0; i < myPath.points.size(); i++) {
+				agents[0]->addPathPoint(maze->cell2pix(myPath.points[i]));
+			}
+		}
+		else if (mode == 2) {
+			agents[0]->clearPath();
+			Path myPath = maze->getPathGreedy(maze->pix2cell(agents[0]->getPosition()), coinPosition);
 			for (int i = 0; i < myPath.points.size(); i++) {
 				agents[0]->addPathPoint(maze->cell2pix(myPath.points[i]));
 			}

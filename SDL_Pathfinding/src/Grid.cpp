@@ -661,7 +661,7 @@ int Grid::getHeuristic(Vector2D start, Vector2D end) {
 
 Path Grid::getPathGreedy(Vector2D start, Vector2D end) {
 	std::deque<MyNode> visitedCells;
-	MyNode n = MyNode(start, nullptr, 0, 0);
+	MyNode n = MyNode(start, nullptr, 0, 0, getHeuristic(start, end));
 	std::deque<MyNode> frontierGreedy;
 	frontierGreedy.push_back(n);
 
@@ -677,15 +677,14 @@ Path Grid::getPathGreedy(Vector2D start, Vector2D end) {
 		int cheapI = 0;
 
 		for (int i = 0; i < frontierGreedy.size() - 1; i++) {
-			if (frontierGreedy[i].cost <= cheapestNode.cost) {
+			if (frontierGreedy[i].heuristic <= cheapestNode.heuristic) {
 				cheapestNode = frontierGreedy[i];
 				cheapI = i;
 			}
 		}
 		itNode.position = frontierGreedy[cheapI].position;
 		itNode.parent = frontierGreedy[cheapI].parent;
-		itNode.cost = frontierGreedy[cheapI].cost;
-		itNode.cost = frontierGreedy[cheapI].costSoFar;
+		itNode.heuristic = frontierGreedy[cheapI].heuristic;
 
 		frontierGreedy.erase(frontierGreedy.begin() + cheapI);
 		visitedCells.push_back(itNode);
@@ -710,11 +709,7 @@ Path Grid::getPathGreedy(Vector2D start, Vector2D end) {
 			if (!alreadyVisited) {
 				for (int i = 0; i < frontierGreedy.size(); i++) {
 					if (frontierGreedy[i].position == point2) {
-						if (n2.heuristic < frontierGreedy[i].heuristic) {
-							frontierGreedy.erase(frontierGreedy.begin() + i);
-							//n2.costSoFar = n2.cost + n2.parent->costSoFar;
-							frontierGreedy.push_back(n2);
-						}
+						
 						alreadyFrontier = true;
 						break;
 					}
@@ -746,11 +741,7 @@ Path Grid::getPathGreedy(Vector2D start, Vector2D end) {
 			if (!alreadyVisited) {
 				for (int i = 0; i < frontierGreedy.size(); i++) {
 					if (frontierGreedy[i].position == point4) {
-						if (n4.heuristic < frontierGreedy[i].heuristic) {
-							frontierGreedy.erase(frontierGreedy.begin() + i);
-							//n4.costSoFar = n4.cost + n4.parent->costSoFar;
-							frontierGreedy.push_back(n4);
-						}
+						
 						alreadyFrontier = true;
 						break;
 					}
@@ -781,11 +772,7 @@ Path Grid::getPathGreedy(Vector2D start, Vector2D end) {
 			if (!alreadyVisited) {
 				for (int i = 0; i < frontierGreedy.size(); i++) {
 					if (frontierGreedy[i].position == point2) {
-						if (n6.heuristic < frontierGreedy[i].heuristic) {
-							frontierGreedy.erase(frontierGreedy.begin() + i);
-							//n6.costSoFar = n6.cost + n6.parent->costSoFar;
-							frontierGreedy.push_back(n6);
-						}
+						
 						alreadyFrontier = true;
 						break;
 					}
@@ -817,11 +804,7 @@ Path Grid::getPathGreedy(Vector2D start, Vector2D end) {
 			if (!alreadyVisited) {
 				for (int i = 0; i < frontierGreedy.size(); i++) {
 					if (frontierGreedy[i].position == point8) {
-						if (n8.heuristic < frontierGreedy[i].heuristic) {
-							frontierGreedy.erase(frontierGreedy.begin() + i);
-							//n8.costSoFar = n8.cost + n8.parent->costSoFar;
-							frontierGreedy.push_back(n8);
-						}
+						
 						alreadyFrontier = true;
 						break;
 					}
@@ -853,11 +836,7 @@ Path Grid::getPathGreedy(Vector2D start, Vector2D end) {
 			if (!alreadyVisited) {
 				for (int i = 0; i < frontierGreedy.size(); i++) {
 					if (frontierGreedy[i].position == point1) {
-						if (n1.heuristic < frontierGreedy[i].heuristic) {
-							frontierGreedy.erase(frontierGreedy.begin() + i);
-							//n8.costSoFar = n8.cost + n8.parent->costSoFar;
-							frontierGreedy.push_back(n1);
-						}
+						
 						alreadyFrontier = true;
 						break;
 					}
@@ -890,11 +869,7 @@ Path Grid::getPathGreedy(Vector2D start, Vector2D end) {
 			if (!alreadyVisited) {
 				for (int i = 0; i < frontierGreedy.size(); i++) {
 					if (frontierGreedy[i].position == point3) {
-						if (n3.heuristic < frontierGreedy[i].heuristic) {
-							frontierGreedy.erase(frontierGreedy.begin() + i);
-							//n8.costSoFar = n8.cost + n8.parent->costSoFar;
-							frontierGreedy.push_back(n3);
-						}
+						
 						alreadyFrontier = true;
 						break;
 					}
@@ -926,11 +901,7 @@ Path Grid::getPathGreedy(Vector2D start, Vector2D end) {
 			if (!alreadyVisited) {
 				for (int i = 0; i < frontierGreedy.size(); i++) {
 					if (frontierGreedy[i].position == point7) {
-						if (n7.heuristic < frontierGreedy[i].heuristic) {
-							frontierGreedy.erase(frontierGreedy.begin() + i);
-							//n8.costSoFar = n8.cost + n8.parent->costSoFar;
-							frontierGreedy.push_back(n7);
-						}
+						
 						alreadyFrontier = true;
 						break;
 					}
@@ -962,11 +933,7 @@ Path Grid::getPathGreedy(Vector2D start, Vector2D end) {
 			if (!alreadyVisited) {
 				for (int i = 0; i < frontierGreedy.size(); i++) {
 					if (frontierGreedy[i].position == point9) {
-						if (n9.heuristic < frontierGreedy[i].heuristic) {
-							frontierGreedy.erase(frontierGreedy.begin() + i);
-							//n8.costSoFar = n8.cost + n8.parent->costSoFar;
-							frontierGreedy.push_back(n9);
-						}
+						
 						alreadyFrontier = true;
 						break;
 					}
@@ -1022,3 +989,6 @@ Path Grid::getPathGreedy(Vector2D start, Vector2D end) {
 
 }
 
+Path Grid::getPathAStar(Vector2D start, Vector2D end) {
+
+}
