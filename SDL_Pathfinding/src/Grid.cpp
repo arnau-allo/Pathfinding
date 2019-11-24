@@ -616,23 +616,6 @@ Path Grid::getPathDjikstra(Vector2D start, Vector2D end) {
 
 	itNode = visitedCells[visitedCells.size() - 1];
 
-	/*while (!isStart) {
-		Vector2D tempPoint = itNode.position;
-		points.push_back(tempPoint);
-		if (itNode.parent != nullptr) {
-			Vector2D comesFrom = itNode.parent->position;
-			if (comesFrom == start) {
-				isStart = true;
-				break;
-			}
-			itNode = *itNode.parent;
-		}
-		else {
-			points.push_back(tempPoint);
-			break;
-		}
-
-	}*/
 	while (true) {
 		points.push_back(itNode.position);
 		if (itNode.parent != nullptr) {
@@ -990,5 +973,346 @@ Path Grid::getPathGreedy(Vector2D start, Vector2D end) {
 }
 
 Path Grid::getPathAStar(Vector2D start, Vector2D end) {
+	std::deque<MyNode> visitedCells;
+	MyNode n = MyNode(start, nullptr, 0, 0);
+	std::deque<MyNode> frontierDjikstra;
+	frontierDjikstra.push_back(n);
 
+
+	int it = 0;
+	MyNode itNode = n;
+
+	MyNode cheapestNode = frontierDjikstra[0];
+
+
+	while (!frontierDjikstra.empty()) {
+
+		int cheapI = 0;
+
+		for (int i = 0; i < frontierDjikstra.size() - 1; i++) {
+			if (frontierDjikstra[i].cost + frontierDjikstra[i].heuristic <= cheapestNode.cost + cheapestNode.heuristic) {
+				cheapestNode = frontierDjikstra[i];
+				cheapI = i;
+			}
+		}
+		itNode.position = frontierDjikstra[cheapI].position;
+		itNode.parent = frontierDjikstra[cheapI].parent;
+		itNode.cost = frontierDjikstra[cheapI].cost;
+		itNode.cost = frontierDjikstra[cheapI].costSoFar;
+
+		frontierDjikstra.erase(frontierDjikstra.begin() + cheapI);
+		visitedCells.push_back(itNode);
+
+		bool alreadyVisited = false;
+		bool alreadyFrontier = false;
+		Vector2D point2 = (0, 0);
+		point2.x = itNode.position.x;
+		point2.y = itNode.position.y - 1.0f;
+		if (isValidCell(point2)) {
+			MyNode n2 = MyNode(point2, &visitedCells[visitedCells.size() - 1], getCostCell(point2), itNode.costSoFar + getCostCell(point2), getHeuristic(end, point2));
+			if (point2 == end) {
+				visitedCells.push_back(n2);
+				break;
+			}
+			for (int i = 0; i < visitedCells.size(); i++) {
+				if (visitedCells[i].position == point2) {
+					alreadyVisited = true;
+					break;
+				}
+			}
+			if (!alreadyVisited) {
+				for (int i = 0; i < frontierDjikstra.size(); i++) {
+					if (frontierDjikstra[i].position == point2) {
+						if (n2.cost + n2.parent->costSoFar + n2.heuristic < frontierDjikstra[i].costSoFar + frontierDjikstra[i].heuristic) {
+							frontierDjikstra.erase(frontierDjikstra.begin() + i);
+							//n2.costSoFar = n2.cost + n2.parent->costSoFar;
+							frontierDjikstra.push_back(n2);
+						}
+						alreadyFrontier = true;
+						break;
+					}
+				}
+				if (!alreadyFrontier) {
+					//n2.costSoFar = n2.cost + n2.parent->costSoFar;
+					frontierDjikstra.push_back(n2);
+				}
+			}
+		}
+
+		alreadyVisited = false;
+		alreadyFrontier = false;
+		Vector2D point4 = (0, 0);
+		point4.x = itNode.position.x - 1.0f;
+		point4.y = itNode.position.y;
+		if (isValidCell(point4)) {
+			MyNode n4 = MyNode(point4, &visitedCells[visitedCells.size() - 1], getCostCell(point4), itNode.costSoFar + getCostCell(point4), getHeuristic(end, point4));
+			if (point4 == end) {
+				visitedCells.push_back(n4);
+				break;
+			}
+			for (int i = 0; i < visitedCells.size() - 1; i++) {
+				if (visitedCells[i].position == point4) {
+					alreadyVisited = true;
+					break;
+				}
+			}
+			if (!alreadyVisited) {
+				for (int i = 0; i < frontierDjikstra.size(); i++) {
+					if (frontierDjikstra[i].position == point4) {
+						if (n4.cost + n4.parent->costSoFar + n4.heuristic < frontierDjikstra[i].costSoFar + frontierDjikstra[i].heuristic) {
+							frontierDjikstra.erase(frontierDjikstra.begin() + i);
+							//n4.costSoFar = n4.cost + n4.parent->costSoFar;
+							frontierDjikstra.push_back(n4);
+						}
+						alreadyFrontier = true;
+						break;
+					}
+				}
+				if (!alreadyFrontier) {
+					//n4.costSoFar = n4.cost + n4.parent->costSoFar;
+					frontierDjikstra.push_back(n4);
+				}
+			}
+		}
+
+		alreadyVisited = false;
+		alreadyFrontier = false;
+		Vector2D point6 = (0, 0);
+		point6.x = itNode.position.x + 1.0f;
+		point6.y = itNode.position.y;
+		if (isValidCell(point6)) {
+			MyNode n6 = MyNode(point6, &visitedCells[visitedCells.size() - 1], getCostCell(point6), itNode.costSoFar + getCostCell(point6), getHeuristic(end, point6));
+			if (point6 == end) {
+				visitedCells.push_back(n6);
+				break;
+			}
+			for (int i = 0; i < visitedCells.size(); i++) {
+				if (visitedCells[i].position == point6) {
+					alreadyVisited = true;
+				}
+			}
+			if (!alreadyVisited) {
+				for (int i = 0; i < frontierDjikstra.size(); i++) {
+					if (frontierDjikstra[i].position == point2) {
+						if (n6.cost + n6.parent->costSoFar + n6.heuristic < frontierDjikstra[i].costSoFar + frontierDjikstra[i].heuristic) {
+							frontierDjikstra.erase(frontierDjikstra.begin() + i);
+							//n6.costSoFar = n6.cost + n6.parent->costSoFar;
+							frontierDjikstra.push_back(n6);
+						}
+						alreadyFrontier = true;
+						break;
+					}
+				}
+				if (!alreadyFrontier) {
+					//n6.costSoFar = n6.cost + n6.parent->costSoFar;
+					frontierDjikstra.push_back(n6);
+				}
+			}
+		}
+
+		alreadyVisited = false;
+		alreadyFrontier = false;
+		Vector2D point8 = (0, 0);
+		point8.x = itNode.position.x;
+		point8.y = itNode.position.y + 1.0f;
+		if (isValidCell(point8)) {
+			MyNode n8 = MyNode(point8, &visitedCells[visitedCells.size() - 1], getCostCell(point8), itNode.costSoFar + getCostCell(point8), getHeuristic(end, point8));
+			if (point8 == end) {
+				visitedCells.push_back(n8);
+				break;
+			}
+			for (int i = 0; i < visitedCells.size(); i++) {
+				if (visitedCells[i].position == point8) {
+					alreadyVisited = true;
+					break;
+				}
+			}
+			if (!alreadyVisited) {
+				for (int i = 0; i < frontierDjikstra.size(); i++) {
+					if (frontierDjikstra[i].position == point8) {
+						if (n8.cost + n8.parent->costSoFar + n8.heuristic < frontierDjikstra[i].costSoFar+ frontierDjikstra[i].heuristic) {
+							frontierDjikstra.erase(frontierDjikstra.begin() + i);
+							//n8.costSoFar = n8.cost + n8.parent->costSoFar;
+							frontierDjikstra.push_back(n8);
+						}
+						alreadyFrontier = true;
+						break;
+					}
+				}
+				if (!alreadyFrontier) {
+					//n8.costSoFar = n8.cost + n8.parent->costSoFar;
+					frontierDjikstra.push_back(n8);
+				}
+			}
+		}
+
+		alreadyVisited = false;
+		alreadyFrontier = false;
+		Vector2D point1 = (0, 0);
+		point1.x = itNode.position.x - 1.0f;
+		point1.y = itNode.position.y - 1.0f;
+		if (isValidCell(point1)) {
+			MyNode n1 = MyNode(point1, &visitedCells[visitedCells.size() - 1], getCostCell(point1), itNode.costSoFar + getCostCell(point1), getHeuristic(end, point1));
+			if (point1 == end) {
+				visitedCells.push_back(n1);
+				break;
+			}
+			for (int i = 0; i < visitedCells.size(); i++) {
+				if (visitedCells[i].position == point1) {
+					alreadyVisited = true;
+					break;
+				}
+			}
+			if (!alreadyVisited) {
+				for (int i = 0; i < frontierDjikstra.size(); i++) {
+					if (frontierDjikstra[i].position == point1) {
+						if (n1.cost + n1.parent->costSoFar + n1.heuristic< frontierDjikstra[i].costSoFar + frontierDjikstra[i].heuristic) {
+							frontierDjikstra.erase(frontierDjikstra.begin() + i);
+							//n8.costSoFar = n8.cost + n8.parent->costSoFar;
+							frontierDjikstra.push_back(n1);
+						}
+						alreadyFrontier = true;
+						break;
+					}
+				}
+				if (!alreadyFrontier) {
+					//n8.costSoFar = n8.cost + n8.parent->costSoFar;
+					frontierDjikstra.push_back(n1);
+				}
+			}
+		}
+
+
+		alreadyVisited = false;
+		alreadyFrontier = false;
+		Vector2D point3 = (0, 0);
+		point3.x = itNode.position.x + 1.0f;
+		point3.y = itNode.position.y - 1.0f;
+		if (isValidCell(point3)) {
+			MyNode n3 = MyNode(point3, &visitedCells[visitedCells.size() - 1], getCostCell(point3), itNode.costSoFar + getCostCell(point3), getHeuristic(end, point3));
+			if (point3 == end) {
+				visitedCells.push_back(n3);
+				break;
+			}
+			for (int i = 0; i < visitedCells.size(); i++) {
+				if (visitedCells[i].position == point3) {
+					alreadyVisited = true;
+					break;
+				}
+			}
+			if (!alreadyVisited) {
+				for (int i = 0; i < frontierDjikstra.size(); i++) {
+					if (frontierDjikstra[i].position == point3) {
+						if (n3.cost + n3.parent->costSoFar + n3.heuristic< frontierDjikstra[i].costSoFar + frontierDjikstra[i].heuristic) {
+							frontierDjikstra.erase(frontierDjikstra.begin() + i);
+							//n8.costSoFar = n8.cost + n8.parent->costSoFar;
+							frontierDjikstra.push_back(n3);
+						}
+						alreadyFrontier = true;
+						break;
+					}
+				}
+				if (!alreadyFrontier) {
+					//n8.costSoFar = n8.cost + n8.parent->costSoFar;
+					frontierDjikstra.push_back(n3);
+				}
+			}
+		}
+
+		alreadyVisited = false;
+		alreadyFrontier = false;
+		Vector2D point7 = (0, 0);
+		point7.x = itNode.position.x - 1.0f;
+		point7.y = itNode.position.y + 1.0f;
+		if (isValidCell(point7)) {
+			MyNode n7 = MyNode(point7, &visitedCells[visitedCells.size() - 1], getCostCell(point7), itNode.costSoFar + getCostCell(point7), getHeuristic(end, point7));
+			if (point7 == end) {
+				visitedCells.push_back(n7);
+				break;
+			}
+			for (int i = 0; i < visitedCells.size(); i++) {
+				if (visitedCells[i].position == point7) {
+					alreadyVisited = true;
+					break;
+				}
+			}
+			if (!alreadyVisited) {
+				for (int i = 0; i < frontierDjikstra.size(); i++) {
+					if (frontierDjikstra[i].position == point7) {
+						if (n7.cost + n7.parent->costSoFar +n7.heuristic < frontierDjikstra[i].costSoFar + frontierDjikstra[i].heuristic) {
+							frontierDjikstra.erase(frontierDjikstra.begin() + i);
+							//n8.costSoFar = n8.cost + n8.parent->costSoFar;
+							frontierDjikstra.push_back(n7);
+						}
+						alreadyFrontier = true;
+						break;
+					}
+				}
+				if (!alreadyFrontier) {
+					//n8.costSoFar = n8.cost + n8.parent->costSoFar;
+					frontierDjikstra.push_back(n7);
+				}
+			}
+		}
+
+		alreadyVisited = false;
+		alreadyFrontier = false;
+		Vector2D point9 = (0, 0);
+		point9.x = itNode.position.x + 1.0f;
+		point9.y = itNode.position.y + 1.0f;
+		if (isValidCell(point9)) {
+			MyNode n9 = MyNode(point9, &visitedCells[visitedCells.size() - 1], getCostCell(point9), itNode.costSoFar + getCostCell(point9), getHeuristic(end, point9));
+			if (point9 == end) {
+				visitedCells.push_back(n9);
+				break;
+			}
+			for (int i = 0; i < visitedCells.size(); i++) {
+				if (visitedCells[i].position == point9) {
+					alreadyVisited = true;
+					break;
+				}
+			}
+			if (!alreadyVisited) {
+				for (int i = 0; i < frontierDjikstra.size(); i++) {
+					if (frontierDjikstra[i].position == point9) {
+						if (n9.cost + n9.parent->costSoFar + n9.heuristic < frontierDjikstra[i].costSoFar + frontierDjikstra[i].heuristic) {
+							frontierDjikstra.erase(frontierDjikstra.begin() + i);
+							//n8.costSoFar = n8.cost + n8.parent->costSoFar;
+							frontierDjikstra.push_back(n9);
+						}
+						alreadyFrontier = true;
+						break;
+					}
+				}
+				if (!alreadyFrontier) {
+					//n8.costSoFar = n8.cost + n8.parent->costSoFar;
+					frontierDjikstra.push_back(n9);
+				}
+			}
+		}
+	}
+
+
+	std::vector<Vector2D> points;
+	bool isStart = false;
+	bool pointFound = false;
+
+	itNode = visitedCells[visitedCells.size() - 1];
+
+	while (true) {
+		points.push_back(itNode.position);
+		if (itNode.parent != nullptr) {
+			itNode = *itNode.parent;
+		}
+		else {
+			break;
+		}
+	}
+
+	Path myPath;
+	for (int i = points.size() - 1; i >= 0; i--) {
+		myPath.points.push_back(points[i]);
+	}
+
+	return myPath;
 }
